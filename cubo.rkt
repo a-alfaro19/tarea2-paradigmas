@@ -1,4 +1,5 @@
 #lang racket
+(provide crear-cubo crear-cara crear-fila)
 
 ; Definición del cubo
 
