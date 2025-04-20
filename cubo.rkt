@@ -75,3 +75,6 @@
      fila]
     [else
      (crear-fila n (append fila (list color)) color)])) ;; Agregar una columna de color 'color' a la fila
+
+
+(provide crear-cubo)
