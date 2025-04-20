@@ -1,13 +1,12 @@
 ; -----------------------------------------------------------------------------
-;; RubikSimulator - Interfaz Gráfica Funcional Pura
+;; RubikSimulator - Interfaz Gráfica 
 ;;
 ;; Este archivo construye la interfaz gráfica del simulador de cubo Rubik,
 ;; mostrando las caras desplegadas en 2D y permitiendo simular movimientos.
-;; Se utiliza el paradigma funcional puro con GUI de Racket.
 ;; -----------------------------------------------------------------------------
 
 #lang racket/gui
-(require "main.rkt") 
+(require "main.rkt") ; Función RS para aplicar movimientos
 (require racket/class) ; Librería GUI de Racket
 
 ; -----------------------------------------------------------------------------
@@ -154,7 +153,7 @@
 (define panel-tamanos (new vertical-panel% [parent panel-controles] [alignment '(center center)] [spacing 1]))
 (map (lambda (n)
        (new button%
-            [parent panel-tamanos] [label (format "~ax~a" n n)] [font fuente-normal]
+            [parent panel-tamanos] [label (format "~ax~ax~a" n n n)] [font fuente-normal]
             [callback (lambda (_event _control)
                         (tam-cubo n)
                         (actualizar-cubo! (crear-cubo n)))]))
