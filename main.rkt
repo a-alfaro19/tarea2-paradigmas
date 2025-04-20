@@ -246,13 +246,13 @@
      (define nuevo-cubo (rotar-fila-extremo cubo fila direccion))
      (cond
        [(and (= fila 1) (equal? direccion 'derecha))
-        (reemplazar-en-lista nuevo-cubo 0 (rotar-cara-antihoraria (list-ref nuevo-cubo 0)))] ; rotación antihoraria de la cara superior
+        (reemplazar-en-lista nuevo-cubo 0 (rotar-cara-antihoraria (obtener-elemento nuevo-cubo 0)))] ; rotación antihoraria de la cara superior
        [(and (= fila 1) (equal? direccion 'izquierda))
-        (reemplazar-en-lista nuevo-cubo 0 (rotar-cara-horaria (list-ref nuevo-cubo 0)))] ; rotación horaria de la cara superior
+        (reemplazar-en-lista nuevo-cubo 0 (rotar-cara-horaria (obtener-elemento nuevo-cubo 0)))] ; rotación horaria de la cara superior
        [(and (= fila n) (equal? direccion 'derecha))
-        (reemplazar-en-lista nuevo-cubo 5 (rotar-cara-horaria (list-ref nuevo-cubo 5)))]  ; rotación horaria de la cara inferior
+        (reemplazar-en-lista nuevo-cubo 5 (rotar-cara-horaria (obtener-elemento nuevo-cubo 5)))]  ; rotación horaria de la cara inferior
        [(and (= fila n) (equal? direccion 'izquierda))
-        (reemplazar-en-lista nuevo-cubo 5 (rotar-cara-antihoraria (list-ref nuevo-cubo 5)))]  ; rotación antihoraria de la cara inferior
+        (reemplazar-en-lista nuevo-cubo 5 (rotar-cara-antihoraria (obtener-elemento nuevo-cubo 5)))]  ; rotación antihoraria de la cara inferior
        [else nuevo-cubo])]
     [else (rotar-fila-extremo cubo fila direccion)]))
 
@@ -263,10 +263,10 @@
 ;; -----------------------------------------------------------------------------
 (define (rotar-fila-extremo cubo fila direccion)
   ;; Se extraen las filas correspondientes de cada cara lateral involucrada
-  (define izq (extraer-fila (list-ref cubo 4) fila))
-  (define fr (extraer-fila (list-ref cubo 1) fila))
-  (define der (extraer-fila (list-ref cubo 2) fila))
-  (define post (extraer-fila (list-ref cubo 3) fila))
+  (define izq (extraer-fila (obtener-elemento cubo 4) fila))
+  (define fr (extraer-fila (obtener-elemento cubo 1) fila))
+  (define der (extraer-fila (obtener-elemento cubo 2) fila))
+  (define post (extraer-fila (obtener-elemento cubo 3) fila))
   (cond
     ;; Si el movimiento es a la derecha
     [(equal? direccion 'derecha)
@@ -274,20 +274,20 @@
      (reemplazar-en-lista
       (reemplazar-en-lista
        (reemplazar-en-lista
-        (reemplazar-en-lista cubo 4 (reemplazar-fila (list-ref cubo 4) fila post))
-        1 (reemplazar-fila (list-ref cubo 1) fila izq))
-       2 (reemplazar-fila (list-ref cubo 2) fila fr))
-      3 (reemplazar-fila (list-ref cubo 3) fila der))]
+        (reemplazar-en-lista cubo 4 (reemplazar-fila (obtener-elemento cubo 4) fila post))
+        1 (reemplazar-fila (obtener-elemento cubo 1) fila izq))
+       2 (reemplazar-fila (obtener-elemento cubo 2) fila fr))
+      3 (reemplazar-fila (obtener-elemento cubo 3) fila der))]
     ;; Si el movimiento es a la izquierda
     [(equal? direccion 'izquierda)
      ;;cara izquierda <- cara frontal, cara frontal <- cara derecha, cara derecha <- cara posterior, cara posterior <- cara izquierda
      (reemplazar-en-lista
       (reemplazar-en-lista
        (reemplazar-en-lista
-        (reemplazar-en-lista cubo 4 (reemplazar-fila (list-ref cubo 4) fila fr))
-        1 (reemplazar-fila (list-ref cubo 1) fila der))
-       2 (reemplazar-fila (list-ref cubo 2) fila post))
-      3 (reemplazar-fila (list-ref cubo 3) fila izq))]))
+        (reemplazar-en-lista cubo 4 (reemplazar-fila (obtener-elemento cubo 4) fila fr))
+        1 (reemplazar-fila (obtener-elemento cubo 1) fila der))
+       2 (reemplazar-fila (obtener-elemento cubo 2) fila post))
+      3 (reemplazar-fila (obtener-elemento cubo 3) fila izq))]))
 
 ;; -----------------------------------------------------------------------------
 ;; rotar-columna-en-cubo: Número Lista Número Símbolo -> Lista
@@ -296,11 +296,11 @@
 ;; -----------------------------------------------------------------------------
 (define (rotar-columna-en-cubo n cubo columna direccion)
   ;; Extrae columnas necesarias de las caras implicadas
-  (define sup (extraer-columna (list-ref cubo 0) columna))
-  (define fr (extraer-columna (list-ref cubo 1) columna))
-  (define inf (extraer-columna (list-ref cubo 5) columna))
+  (define sup (extraer-columna (obtener-elemento cubo 0) columna))
+  (define fr (extraer-columna (obtener-elemento cubo 1) columna))
+  (define inf (extraer-columna (obtener-elemento cubo 5) columna))
   ;; Para la cara posterior, se debe invertir el índice de columna
-  (define post (extraer-columna (list-ref cubo 3) (- n (- columna 1)))) ; columna inversa en cara posterior
+  (define post (extraer-columna (obtener-elemento cubo 3) (- n (- columna 1)))) ; columna inversa en cara posterior
   ;; Identifica si la columna esta al extremo
   (define izq? (= columna 1))
   (define der? (= columna n))
@@ -313,14 +313,14 @@
      (define nuevo-inf fr)
      (define nuevo-post (invertir-lista inf))
      ;; Aplica cambios en el cubo
-     (define cubo1 (reemplazar-en-lista cubo 0 (reemplazar-columna (list-ref cubo 0) columna nuevo-sup)))
-     (define cubo2 (reemplazar-en-lista cubo1 1 (reemplazar-columna (list-ref cubo1 1) columna nuevo-fr)))
-     (define cubo3 (reemplazar-en-lista cubo2 5 (reemplazar-columna (list-ref cubo2 5) columna nuevo-inf)))
-     (define nuevo-cubo (reemplazar-en-lista cubo3 3 (reemplazar-columna (list-ref cubo3 3) (- n (- columna 1)) nuevo-post)))
+     (define cubo1 (reemplazar-en-lista cubo 0 (reemplazar-columna (obtener-elemento cubo 0) columna nuevo-sup)))
+     (define cubo2 (reemplazar-en-lista cubo1 1 (reemplazar-columna (obtener-elemento cubo1 1) columna nuevo-fr)))
+     (define cubo3 (reemplazar-en-lista cubo2 5 (reemplazar-columna (obtener-elemento cubo2 5) columna nuevo-inf)))
+     (define nuevo-cubo (reemplazar-en-lista cubo3 3 (reemplazar-columna (obtener-elemento cubo3 3) (- n (- columna 1)) nuevo-post)))
      ;; Rota cara lateral si la columna esta al extremo 
      (cond
-       [izq? (reemplazar-en-lista nuevo-cubo 4 (rotar-cara-horaria (list-ref nuevo-cubo 4)))]
-       [der? (reemplazar-en-lista nuevo-cubo 2 (rotar-cara-antihoraria (list-ref nuevo-cubo 2)))]
+       [izq? (reemplazar-en-lista nuevo-cubo 4 (rotar-cara-horaria (obtener-elemento nuevo-cubo 4)))]
+       [der? (reemplazar-en-lista nuevo-cubo 2 (rotar-cara-antihoraria (obtener-elemento nuevo-cubo 2)))]
        [else nuevo-cubo])]
     ;; Si la rotacion es hacia arriba
     [(equal? direccion 'arriba)
@@ -330,14 +330,14 @@
      (define nuevo-inf (invertir-lista post))
      (define nuevo-post (invertir-lista sup))
      ;; Aplica cambios en el cubo
-     (define cubo1 (reemplazar-en-lista cubo 0 (reemplazar-columna (list-ref cubo 0) columna nuevo-sup)))
-     (define cubo2 (reemplazar-en-lista cubo1 1 (reemplazar-columna (list-ref cubo1 1) columna nuevo-fr)))
-     (define cubo3 (reemplazar-en-lista cubo2 5 (reemplazar-columna (list-ref cubo2 5) columna nuevo-inf)))
-     (define nuevo-cubo (reemplazar-en-lista cubo3 3 (reemplazar-columna (list-ref cubo3 3) (- n (- columna 1)) nuevo-post)))
+     (define cubo1 (reemplazar-en-lista cubo 0 (reemplazar-columna (obtener-elemento cubo 0) columna nuevo-sup)))
+     (define cubo2 (reemplazar-en-lista cubo1 1 (reemplazar-columna (obtener-elemento cubo1 1) columna nuevo-fr)))
+     (define cubo3 (reemplazar-en-lista cubo2 5 (reemplazar-columna (obtener-elemento cubo2 5) columna nuevo-inf)))
+     (define nuevo-cubo (reemplazar-en-lista cubo3 3 (reemplazar-columna (obtener-elemento cubo3 3) (- n (- columna 1)) nuevo-post)))
      ;; Rota cara lateral si la columna esta al extremo 
      (cond
-       [izq? (reemplazar-en-lista nuevo-cubo 4 (rotar-cara-antihoraria (list-ref nuevo-cubo 4)))]
-       [der? (reemplazar-en-lista nuevo-cubo 2 (rotar-cara-horaria (list-ref nuevo-cubo 2)))]
+       [izq? (reemplazar-en-lista nuevo-cubo 4 (rotar-cara-antihoraria (obtener-elemento nuevo-cubo 4)))]
+       [der? (reemplazar-en-lista nuevo-cubo 2 (rotar-cara-horaria (obtener-elemento nuevo-cubo 2)))]
        [else nuevo-cubo])]))
 
 ;; -----------------------------------------------------------------------------
