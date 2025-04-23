@@ -272,7 +272,7 @@
     [(and (= fila n) (equal? direccion 'izquierda))
      (reemplazar-en-lista cubo 5 (rotar-cara-antihoraria (obtener-elemento cubo 5)))]
 
-    ;; Ninguna rotación especial necesaria
+    ;; Ninguna rotación necesaria
     [else cubo]))
 
 
@@ -328,7 +328,7 @@
 ;;
 ;; Rota una columna del cubo entre las caras superior (0), frontal (1),
 ;; inferior (5) y posterior (3), en dirección 'arriba o 'abajo.
-;; También rota la cara lateral si la columna es extrema.
+;; También rota la cara lateral si la columna esta al extremo.
 ;; -----------------------------------------------------------------------------
 
 (define (rotar-columna-en-cubo n cubo columna direccion)
