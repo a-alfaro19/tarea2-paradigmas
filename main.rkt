@@ -226,7 +226,7 @@
 
 ;; -----------------------------------------------------------------------------
 ;; reemplazar-en-lista Lista Número Elemento -> Lista
-;; Reemplaza el elemento en la posición 'pos' de una lista cualquiera.
+;; Reemplaza el elemento en la posición 'posterior' de una lista cualquiera.
 ;; -----------------------------------------------------------------------------
 
 (define (reemplazar-en-lista lista pos nuevo)
@@ -245,7 +245,7 @@
     ;; Si es extremo, aplicar rotación especial
     [(es-extremo-fila? fila n)
      (rotar-fila-en-cubo-extremo n (rotar-fila-extremo cubo fila direccion) fila direccion)]
-    ;; Si no es extremo, solo se rota la franja lateral
+    ;; Si no es extremo, solo se rota la parte lateral
     [else (rotar-fila-extremo cubo fila direccion)]))
 
 ;; -----------------------------------------------------------------------------
@@ -346,7 +346,8 @@
 
 ;; -----------------------------------------------------------------------------
 ;; rotar-columna-en-cubo-aux: Número Lista Número Símbolo Lista Lista Lista Lista Bool Bool -> Lista
-;;
+;; Prepara las columnas y su orientación según la dirección de rotación y 
+;; llama a la función que actualiza el cubo con los nuevos valores.
 ;; -----------------------------------------------------------------------------
 
 (define (rotar-columna-en-cubo-aux n cubo columna direccion sup fr inf post izq? der?)
